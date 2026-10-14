@@ -27,6 +27,16 @@ counterLabel.append("Counter: ", counterElement);
 
 let clickPower: number = 1;
 
+//tracking upgrades owned
+let clickUpgradesOwned: number = 0;
+let autoTimeUpgradesOwned: number = 0;
+let autoPowerUpgradesOwned: number = 0;
+
+const clickQuantity = document.createElement("span");
+const autoTimeQuantity = document.createElement("span");
+const autoPowerQuantity = document.createElement("span");
+const productionRate = document.createElement("p");
+
 //change to let for price to change
 let cUpgradeCost: number = 50;
 const clickUpgrade = document.createElement("span");
@@ -34,7 +44,14 @@ const cUpLabel = document.createElement("p");
 const cPurchase = document.createElement("button");
 cPurchase.textContent = "Purchase?";
 clickUpgrade.textContent = "50";
-cUpLabel.append("Click Boost: ", "$", clickUpgrade, "    ", cPurchase);
+cUpLabel.append(
+  "Click Boost: $",
+  clickUpgrade,
+  " | Owned: ",
+  clickQuantity,
+  " ",
+  cPurchase,
+);
 
 //change to let later for upgrades
 let auto: number = 10000;
@@ -44,7 +61,14 @@ const autoLabel = document.createElement("p");
 const autoPurchase = document.createElement("button");
 autoPurchase.textContent = "Purchase?";
 autoUpgrade.textContent = "75";
-autoLabel.append("Auto Time Upgrade: ", "$", autoUpgrade, "    ", autoPurchase);
+autoLabel.append(
+  "Auto Time Upgrade: $",
+  autoUpgrade,
+  " | Owned: ",
+  autoTimeQuantity,
+  " ",
+  autoPurchase,
+);
 
 let autoPower: number = 1;
 let aPowerCost: number = 100;
@@ -54,17 +78,29 @@ const aPowerPurchase = document.createElement("button");
 aPowerPurchase.textContent = "Purchase?";
 aPowerUpgrade.textContent = "100";
 aPowerLabel.append(
-  "Auto Power Upgrade: ",
-  "$",
+  "Auto Power Upgrade: $",
   aPowerUpgrade,
-  "    ",
+  " | Owned: ",
+  autoPowerQuantity,
+  " ",
   aPowerPurchase,
 );
 
+//updateUI
+function updateUI() {
+  counterElement.textContent = Math.floor(counter).toString();
+
+  clickQuantity.textContent = clickUpgradesOwned.toString();
+  autoTimeQuantity.textContent = autoTimeUpgradesOwned.toString();
+  autoPowerQuantity.textContent = autoPowerUpgradesOwned.toString();
+
+  const rate = (1000 / auto) * autoPower;
+  productionRate.textContent = `Production: ${rate.toFixed(2)} per second`;
+}
+
 image.addEventListener("click", () => {
-  console.log("Clicked");
   counter += clickPower;
-  counterElement.textContent = counter.toString();
+  updateUI();
 });
 
 cPurchase.addEventListener("click", () => {
@@ -73,11 +109,13 @@ cPurchase.addEventListener("click", () => {
     counter -= cUpgradeCost;
     counterElement.textContent = counter.toString();
     clickPower += 1;
+    clickUpgradesOwned += 1;
     cUpgradeCost *= 2;
   } else {
     console.log("Not enough money");
   }
   clickUpgrade.textContent = cUpgradeCost.toString();
+  updateUI();
 });
 
 autoPurchase.addEventListener("click", () => {
@@ -86,12 +124,13 @@ autoPurchase.addEventListener("click", () => {
     counter -= autoCost;
     counterElement.textContent = counter.toString();
     auto = Math.max(1000, auto - 1000);
-    //startAutoCounter();
+    autoTimeUpgradesOwned += 1;
     autoCost *= 2;
   } else {
     console.log("Not enough money");
   }
   autoUpgrade.textContent = autoCost.toString();
+  updateUI();
 });
 
 aPowerPurchase.addEventListener("click", () => {
@@ -100,25 +139,26 @@ aPowerPurchase.addEventListener("click", () => {
     counter -= aPowerCost;
     counterElement.textContent = counter.toString();
     autoPower += 1;
+    autoPowerUpgradesOwned += 1;
     aPowerCost *= 2;
   } else {
     console.log("Not enough money");
   }
   aPowerUpgrade.textContent = aPowerCost.toString();
+  updateUI();
 });
 
-let lastTime = 0;
+let lastTime: number = 0;
 
 function gameLoop(timestamp: number) {
   if (lastTime !== 0) {
     const elapsedSeconds = (timestamp - lastTime) / 1000;
-
     counter += (1000 / auto) * autoPower * elapsedSeconds;
-
-    counterElement.textContent = Math.floor(counter).toString();
   }
 
   lastTime = timestamp;
+  updateUI();
+
   requestAnimationFrame(gameLoop);
 }
 
@@ -127,6 +167,7 @@ app.append(
   heading,
   image,
   counterLabel,
+  productionRate,
   cUpLabel,
   autoLabel,
   aPowerLabel,
