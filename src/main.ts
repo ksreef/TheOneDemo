@@ -13,8 +13,22 @@ image.src = tileUrl;
 image.alt = "A teal tile with a cream circle";
 image.width = 96;
 image.height = 96;
+image.style.cursor = "pointer";
 
 const message = document.createElement("p");
 message.textContent = "Your project starts here.";
 
-app.append(heading, image, message);
+let counter: number = 0;
+const counterElement = document.createElement("span");
+const counterLabel = document.createElement("p");
+
+counterElement.textContent = "0";
+counterLabel.append("Counter: ", counterElement);
+
+image.addEventListener("click", () => {
+  console.log("Clicked");
+  counter += 1;
+  counterElement.textContent = counter.toString();
+});
+
+app.append(heading, image, counterLabel, message);
