@@ -31,8 +31,10 @@ let clickPower: number = 1;
 const clickQuantity = document.createElement("span");
 const autoTimeQuantity = document.createElement("span");
 const autoPowerQuantity = document.createElement("span");
+const interestQuantity = document.createElement("span");
 const productionRate = document.createElement("p");
 const clickRate = document.createElement("p");
+const interestRate = document.createElement("p");
 
 type Upgrade = {
   name: string;
@@ -54,6 +56,11 @@ const upgrades: Record<string, Upgrade> = {
   autoPower: {
     name: "Auto Power",
     cost: 100,
+    owned: 0,
+  },
+  interest: {
+    name: "Interest Gain",
+    cost: 150,
     owned: 0,
   },
 };
@@ -105,6 +112,24 @@ aPowerLabel.append(
   aPowerPurchase,
 );
 
+let interestGain: number = 0;
+let interestTimer: number = 0;
+const interestInterval: number = 15;
+
+const interestUpgrade = document.createElement("span");
+const interestLabel = document.createElement("p");
+const interestPurchase = document.createElement("button");
+interestPurchase.textContent = "BUY UPGRADE";
+interestUpgrade.textContent = "150";
+interestLabel.append(
+  "Computer Interest Machine - Gain machine interest: $",
+  interestUpgrade,
+  " | Owned: ",
+  interestQuantity,
+  " ",
+  interestPurchase,
+);
+
 function purchaseUpgrade(
   upgrade: Upgrade,
   applyEffect: () => void,
@@ -129,6 +154,7 @@ function updateUI() {
   clickUpgrade.textContent = upgrades.click.cost.toString();
   autoUpgrade.textContent = upgrades.autoTime.cost.toString();
   aPowerUpgrade.textContent = upgrades.autoPower.cost.toString();
+  interestUpgrade.textContent = upgrades.interest.cost.toString();
 
   clickRate.textContent = `Computers Destroyed Per Click: ${clickPower}`;
 
@@ -136,6 +162,9 @@ function updateUI() {
   productionRate.textContent = `Computers Destroyed Per Second: ${
     rate.toFixed(2)
   }`;
+
+  interestRate.textContent =
+    `Computer Interest Per 12 Seconds: ${interestGain}`;
 }
 
 image.addEventListener("click", () => {
@@ -161,12 +190,24 @@ aPowerPurchase.addEventListener("click", () => {
   });
 });
 
+interestPurchase.addEventListener("click", () => {
+  purchaseUpgrade(upgrades.interest, () => {
+    interestGain += 0.2;
+  });
+});
+
 let lastTime: number = 0;
 
 function gameLoop(timestamp: number) {
   if (lastTime !== 0) {
     const elapsedSeconds = (timestamp - lastTime) / 1000;
     counter += (1000 / auto) * autoPower * elapsedSeconds;
+
+    interestTimer += elapsedSeconds;
+    if (interestTimer >= interestInterval) {
+      counter += counter * interestGain;
+      interestTimer -= interestInterval;
+    }
   }
 
   lastTime = timestamp;
@@ -182,9 +223,11 @@ app.append(
   counterLabel,
   clickRate,
   productionRate,
+  interestRate,
   cUpLabel,
   autoLabel,
   aPowerLabel,
+  interestLabel,
   message,
 );
 
@@ -204,9 +247,12 @@ counterLabel.style.marginBottom = "15px";
 
 clickRate.style.marginBottom = "15px";
 productionRate.style.marginBottom = "35px";
+interestRate.style.marginBottom = "35px";
 
 //button design
-for (const button of [cPurchase, autoPurchase, aPowerPurchase]) {
+for (
+  const button of [cPurchase, autoPurchase, aPowerPurchase, interestPurchase]
+) {
   button.style.backgroundColor = "#003600";
   button.style.color = "#f0eeee";
   button.style.border = "1px solid #1047fc";
