@@ -25,10 +25,18 @@ const counterLabel = document.createElement("p");
 counterElement.textContent = "0";
 counterLabel.append("Counter: ", counterElement);
 
+//change to let later for upgrades
+const auto: number = 10000;
+
 image.addEventListener("click", () => {
   console.log("Clicked");
   counter += 1;
   counterElement.textContent = counter.toString();
 });
+
+setInterval(() => {
+  counter += 1;
+  counterElement.textContent = counter.toString();
+}, auto);
 
 app.append(heading, image, counterLabel, message);
