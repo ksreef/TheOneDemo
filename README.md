@@ -20,4 +20,20 @@ Commit to make the upgrades cost more each time they are purchased
 [text](https://github.com/ksreef/TheOneDemo/commit/acec8ab9aef8189b8937c09f2c5f8cad1b781815)
 Commit to add an extra upgrade that adds interest
 
+Keanu Commit History:
+[text] (https://github.com/ksreef/TheOneDemo/commit/2b12f641e53938911f2c13947573e7430ea8d723)
+Commit to implement elapsed-time for automatic production instead of a repeating interval
+[text] (https://github.com/ksreef/TheOneDemo/commit/019dd3310c7690638dc9b76c971454240fe37c2f)
+Commit to add upgrade ownership tracking and display production rates / feedback
+[text] (https://github.com/ksreef/TheOneDemo/commit/7d7443f7576bc2a6f9237aa2d158c51ad88868a3)
+COmmit to make the title and theme 'Computers Broken', where the rest of the game became about breaking computers
+[text] (https://github.com/ksreef/TheOneDemo/commit/4cc16f9edb466593f9816cec94763d09b345eb98)
+Commit to update font, colors, and layout
+[text] (https://github.com/ksreef/TheOneDemo/commit/9cd7b78c4013de38c5c16066198f9d6adb3bb4ba)
+Commit to refactor upgrades into a shared purchase function
+[text] (https://github.com/ksreef/TheOneDemo/commit/0c821d79d0e1a3a6aef24f10aa6a08e9cbe6a2c9)
+Commit to push the new breaking computer picture into assets
+[text] (https://github.com/ksreef/TheOneDemo/commit/505f6b0e61b85b32cbde0c8fedc3aa1a9dca65d1)
+Commit to fix feedback not showing properly
+
 Tooling adapted from the [CMPM 121 Fall 2026 S01 starter](https://github.com/ucsc-cmpm-121-f26/s01-starter/tree/8974888efb6537be82e8eb069db139ea885039da), which has no explicit repository license. No new license is assigned to that material. The D1 scaffold and original SVG were authored with OpenAI GPT-6 Astra assistance. Dependencies retain their respective licenses.
