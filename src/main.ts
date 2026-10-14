@@ -25,18 +25,40 @@ const counterLabel = document.createElement("p");
 counterElement.textContent = "0";
 counterLabel.append("Counter: ", counterElement);
 
+let clickPower: number = 1;
+
+//change to let for price to change
+const cUpgradeCost: number = 50;
+const clickUpgrade = document.createElement("span");
+const cUpLabel = document.createElement("p");
+const cPurchase = document.createElement("button");
+cPurchase.textContent = "Purchase?";
+clickUpgrade.textContent = "50";
+cUpLabel.append("Click Boost: ", "$", clickUpgrade, "    ", cPurchase);
+
 //change to let later for upgrades
 const auto: number = 10000;
 
 image.addEventListener("click", () => {
   console.log("Clicked");
-  counter += 1;
+  counter += clickPower;
   counterElement.textContent = counter.toString();
 });
 
 setInterval(() => {
-  counter += 1;
+  counter += clickPower;
   counterElement.textContent = counter.toString();
 }, auto);
 
-app.append(heading, image, counterLabel, message);
+cPurchase.addEventListener("click", () => {
+  if (counter >= cUpgradeCost) {
+    console.log("Bought");
+    counter -= 50;
+    counterElement.textContent = counter.toString();
+    clickPower += 1;
+  } else {
+    console.log("Not enough money");
+  }
+  clickUpgrade.textContent = cUpgradeCost.toString();
+});
+app.append(heading, image, counterLabel, cUpLabel, message);
