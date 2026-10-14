@@ -37,7 +37,29 @@ clickUpgrade.textContent = "50";
 cUpLabel.append("Click Boost: ", "$", clickUpgrade, "    ", cPurchase);
 
 //change to let later for upgrades
-const auto: number = 10000;
+let auto: number = 10000;
+const autoCost: number = 75;
+const autoUpgrade = document.createElement("span");
+const autoLabel = document.createElement("p");
+const autoPurchase = document.createElement("button");
+autoPurchase.textContent = "Purchase?";
+autoUpgrade.textContent = "75";
+autoLabel.append("Auto Time Upgrade: ", "$", autoUpgrade, "    ", autoPurchase);
+
+let autoPower: number = 1;
+const aPowerCost: number = 100;
+const aPowerUpgrade = document.createElement("span");
+const aPowerLabel = document.createElement("p");
+const aPowerPurchase = document.createElement("button");
+aPowerPurchase.textContent = "Purchase?";
+aPowerUpgrade.textContent = "100";
+aPowerLabel.append(
+  "Auto Power Upgrade: ",
+  "$",
+  aPowerUpgrade,
+  "    ",
+  aPowerPurchase,
+);
 
 image.addEventListener("click", () => {
   console.log("Clicked");
@@ -45,15 +67,10 @@ image.addEventListener("click", () => {
   counterElement.textContent = counter.toString();
 });
 
-setInterval(() => {
-  counter += clickPower;
-  counterElement.textContent = counter.toString();
-}, auto);
-
 cPurchase.addEventListener("click", () => {
   if (counter >= cUpgradeCost) {
     console.log("Bought");
-    counter -= 50;
+    counter -= cUpgradeCost;
     counterElement.textContent = counter.toString();
     clickPower += 1;
   } else {
@@ -61,4 +78,50 @@ cPurchase.addEventListener("click", () => {
   }
   clickUpgrade.textContent = cUpgradeCost.toString();
 });
-app.append(heading, image, counterLabel, cUpLabel, message);
+
+autoPurchase.addEventListener("click", () => {
+  if (counter >= autoCost) {
+    console.log("Bought");
+    counter -= autoCost;
+    counterElement.textContent = counter.toString();
+    auto = Math.max(1000, auto - 1000);
+    startAutoCounter();
+  } else {
+    console.log("Not enough money");
+  }
+  autoUpgrade.textContent = autoCost.toString();
+});
+
+aPowerPurchase.addEventListener("click", () => {
+  if (counter >= aPowerCost) {
+    console.log("Bought");
+    counter -= aPowerCost;
+    counterElement.textContent = counter.toString();
+    autoPower += 1;
+  } else {
+    console.log("Not enough money");
+  }
+  aPowerUpgrade.textContent = aPowerCost.toString();
+});
+
+let autoInterval: ReturnType<typeof setInterval>;
+
+function startAutoCounter() {
+  clearInterval(autoInterval);
+
+  autoInterval = setInterval(() => {
+    counter += autoPower;
+    counterElement.textContent = counter.toString();
+  }, auto);
+}
+
+startAutoCounter();
+app.append(
+  heading,
+  image,
+  counterLabel,
+  cUpLabel,
+  autoLabel,
+  aPowerLabel,
+  message,
+);
