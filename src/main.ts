@@ -6,7 +6,7 @@ import tileUrl from "./assets/tile.svg?no-inline";
 const app = document.querySelector<HTMLElement>("#app")!;
 
 const heading = document.createElement("h1");
-heading.textContent = "D1 project";
+heading.textContent = "COMPUTERS BROKEN";
 
 const image = document.createElement("img");
 image.src = tileUrl;
@@ -23,7 +23,7 @@ const counterElement = document.createElement("span");
 const counterLabel = document.createElement("p");
 
 counterElement.textContent = "0";
-counterLabel.append("Counter: ", counterElement);
+counterLabel.append("Computers Broken: ", counterElement);
 
 let clickPower: number = 1;
 
@@ -42,10 +42,10 @@ let cUpgradeCost: number = 50;
 const clickUpgrade = document.createElement("span");
 const cUpLabel = document.createElement("p");
 const cPurchase = document.createElement("button");
-cPurchase.textContent = "Purchase?";
+cPurchase.textContent = "BUY UPGRADE";
 clickUpgrade.textContent = "50";
 cUpLabel.append(
-  "Click Boost: $",
+  "Destructive Force: $",
   clickUpgrade,
   " | Owned: ",
   clickQuantity,
@@ -59,10 +59,10 @@ let autoCost: number = 75;
 const autoUpgrade = document.createElement("span");
 const autoLabel = document.createElement("p");
 const autoPurchase = document.createElement("button");
-autoPurchase.textContent = "Purchase?";
+autoPurchase.textContent = "BUY UPGRADE";
 autoUpgrade.textContent = "75";
 autoLabel.append(
-  "Auto Time Upgrade: $",
+  "Computer Wreckage Machine - Time between wrecks: $",
   autoUpgrade,
   " | Owned: ",
   autoTimeQuantity,
@@ -75,10 +75,10 @@ let aPowerCost: number = 100;
 const aPowerUpgrade = document.createElement("span");
 const aPowerLabel = document.createElement("p");
 const aPowerPurchase = document.createElement("button");
-aPowerPurchase.textContent = "Purchase?";
+aPowerPurchase.textContent = "BUY UPGRADE";
 aPowerUpgrade.textContent = "100";
 aPowerLabel.append(
-  "Auto Power Upgrade: $",
+  "Computer Wreckage Macine - Machine destructive force: $",
   aPowerUpgrade,
   " | Owned: ",
   autoPowerQuantity,
@@ -95,7 +95,9 @@ function updateUI() {
   autoPowerQuantity.textContent = autoPowerUpgradesOwned.toString();
 
   const rate = (1000 / auto) * autoPower;
-  productionRate.textContent = `Production: ${rate.toFixed(2)} per second`;
+  productionRate.textContent = `Computers Destroyed Per Second: ${
+    rate.toFixed(2)
+  } per second`;
 }
 
 image.addEventListener("click", () => {
