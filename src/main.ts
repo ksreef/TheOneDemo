@@ -156,6 +156,11 @@ function updateUI() {
   aPowerUpgrade.textContent = upgrades.autoPower.cost.toString();
   interestUpgrade.textContent = upgrades.interest.cost.toString();
 
+  clickQuantity.textContent = upgrades.click.owned.toString();
+  autoTimeQuantity.textContent = upgrades.autoTime.owned.toString();
+  autoPowerQuantity.textContent = upgrades.autoPower.owned.toString();
+  interestQuantity.textContent = upgrades.interest.owned.toString();
+
   clickRate.textContent = `Computers Destroyed Per Click: ${clickPower}`;
 
   const rate = (1000 / auto) * autoPower;
@@ -246,7 +251,7 @@ counterElement.style.fontWeight = "bold";
 counterLabel.style.marginBottom = "15px";
 
 clickRate.style.marginBottom = "15px";
-productionRate.style.marginBottom = "35px";
+productionRate.style.marginBottom = "15px";
 interestRate.style.marginBottom = "35px";
 
 //button design
