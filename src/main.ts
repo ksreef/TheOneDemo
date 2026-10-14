@@ -142,7 +142,7 @@ function purchaseUpgrade(
   counter -= upgrade.cost;
   upgrade.owned += 1;
   applyEffect();
-  upgrade.cost *= 2;
+  upgrade.cost = Math.floor(upgrade.cost * 1.3);
 
   updateUI();
 }
