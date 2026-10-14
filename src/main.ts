@@ -86,7 +86,7 @@ autoPurchase.addEventListener("click", () => {
     counter -= autoCost;
     counterElement.textContent = counter.toString();
     auto = Math.max(1000, auto - 1000);
-    startAutoCounter();
+    //startAutoCounter();
     autoCost *= 2;
   } else {
     console.log("Not enough money");
@@ -107,18 +107,22 @@ aPowerPurchase.addEventListener("click", () => {
   aPowerUpgrade.textContent = aPowerCost.toString();
 });
 
-let autoInterval: ReturnType<typeof setInterval>;
+let lastTime = 0;
 
-function startAutoCounter() {
-  clearInterval(autoInterval);
+function gameLoop(timestamp: number) {
+  if (lastTime !== 0) {
+    const elapsedSeconds = (timestamp - lastTime) / 1000;
 
-  autoInterval = setInterval(() => {
-    counter += autoPower;
-    counterElement.textContent = counter.toString();
-  }, auto);
+    counter += (1000 / auto) * autoPower * elapsedSeconds;
+
+    counterElement.textContent = Math.floor(counter).toString();
+  }
+
+  lastTime = timestamp;
+  requestAnimationFrame(gameLoop);
 }
 
-startAutoCounter();
+requestAnimationFrame(gameLoop);
 app.append(
   heading,
   image,
