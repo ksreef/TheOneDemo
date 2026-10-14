@@ -1,7 +1,7 @@
 // Vite turns this import into a production-safe URL. Keep it as a file so
 // even this tiny example demonstrates a separately deployed asset.
 // @deno-types="./asset-url.d.ts"
-import tileUrl from "./assets/tile.svg?no-inline";
+import tileUrl from "./assets/breakingpc.png";
 
 const app = document.querySelector<HTMLElement>("#app")!;
 
@@ -16,7 +16,7 @@ image.height = 96;
 image.style.cursor = "pointer";
 
 const message = document.createElement("p");
-message.textContent = "Your project starts here.";
+//message.textContent = "Your project starts here.";
 
 let counter: number = 0;
 const counterElement = document.createElement("span");
@@ -36,6 +36,7 @@ const clickQuantity = document.createElement("span");
 const autoTimeQuantity = document.createElement("span");
 const autoPowerQuantity = document.createElement("span");
 const productionRate = document.createElement("p");
+const clickRate = document.createElement("p");
 
 //change to let for price to change
 let cUpgradeCost: number = 50;
@@ -94,10 +95,12 @@ function updateUI() {
   autoTimeQuantity.textContent = autoTimeUpgradesOwned.toString();
   autoPowerQuantity.textContent = autoPowerUpgradesOwned.toString();
 
+  clickRate.textContent = `Computers Destroyed Per Click: ${clickPower}`;
+
   const rate = (1000 / auto) * autoPower;
   productionRate.textContent = `Computers Destroyed Per Second: ${
     rate.toFixed(2)
-  } per second`;
+  }`;
 }
 
 image.addEventListener("click", () => {
@@ -169,9 +172,36 @@ app.append(
   heading,
   image,
   counterLabel,
+  clickRate,
   productionRate,
   cUpLabel,
   autoLabel,
   aPowerLabel,
   message,
 );
+
+//overall design
+document.body.style.backgroundColor = "#101510";
+document.body.style.color = "#39ff14";
+document.body.style.fontFamily = "monospace";
+
+heading.style.color = "#f72929";
+heading.style.fontSize = "40px";
+
+//tally design
+counterLabel.style.fontSize = "24px";
+counterElement.style.fontSize = "27px";
+counterElement.style.fontWeight = "bold";
+counterLabel.style.marginBottom = "15px";
+
+clickRate.style.marginBottom = "15px";
+productionRate.style.marginBottom = "35px";
+
+//button design
+for (const button of [cPurchase, autoPurchase, aPowerPurchase]) {
+  button.style.backgroundColor = "#003600";
+  button.style.color = "#f0eeee";
+  button.style.border = "1px solid #1047fc";
+  button.style.padding = "6px 10px";
+  button.style.cursor = "pointer";
+}
