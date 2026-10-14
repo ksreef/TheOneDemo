@@ -1,6 +1,7 @@
 // Vite turns this import into a production-safe URL. Keep it as a file so
 // even this tiny example demonstrates a separately deployed asset.
 // @deno-types="./asset-url.d.ts"
+//import { upgrade } from "asset:///node/undici/api.d.ts";
 import tileUrl from "./assets/breakingpc.png";
 
 const app = document.querySelector<HTMLElement>("#app")!;
@@ -16,7 +17,6 @@ image.height = 96;
 image.style.cursor = "pointer";
 
 const message = document.createElement("p");
-//message.textContent = "Your project starts here.";
 
 let counter: number = 0;
 const counterElement = document.createElement("span");
@@ -28,18 +28,37 @@ counterLabel.append("Computers Broken: ", counterElement);
 let clickPower: number = 1;
 
 //tracking upgrades owned
-let clickUpgradesOwned: number = 0;
-let autoTimeUpgradesOwned: number = 0;
-let autoPowerUpgradesOwned: number = 0;
-
 const clickQuantity = document.createElement("span");
 const autoTimeQuantity = document.createElement("span");
 const autoPowerQuantity = document.createElement("span");
 const productionRate = document.createElement("p");
 const clickRate = document.createElement("p");
 
+type Upgrade = {
+  name: string;
+  cost: number;
+  owned: number;
+};
+
+const upgrades: Record<string, Upgrade> = {
+  click: {
+    name: "Click Power",
+    cost: 50,
+    owned: 0,
+  },
+  autoTime: {
+    name: "Auto Time",
+    cost: 75,
+    owned: 0,
+  },
+  autoPower: {
+    name: "Auto Power",
+    cost: 100,
+    owned: 0,
+  },
+};
+
 //change to let for price to change
-let cUpgradeCost: number = 50;
 const clickUpgrade = document.createElement("span");
 const cUpLabel = document.createElement("p");
 const cPurchase = document.createElement("button");
@@ -56,7 +75,6 @@ cUpLabel.append(
 
 //change to let later for upgrades
 let auto: number = 10000;
-let autoCost: number = 75;
 const autoUpgrade = document.createElement("span");
 const autoLabel = document.createElement("p");
 const autoPurchase = document.createElement("button");
@@ -72,7 +90,7 @@ autoLabel.append(
 );
 
 let autoPower: number = 1;
-let aPowerCost: number = 100;
+
 const aPowerUpgrade = document.createElement("span");
 const aPowerLabel = document.createElement("p");
 const aPowerPurchase = document.createElement("button");
@@ -87,13 +105,30 @@ aPowerLabel.append(
   aPowerPurchase,
 );
 
+function purchaseUpgrade(
+  upgrade: Upgrade,
+  applyEffect: () => void,
+) {
+  if (counter < upgrade.cost) {
+    console.log("Not enough money");
+    return;
+  }
+
+  counter -= upgrade.cost;
+  upgrade.owned += 1;
+  applyEffect();
+  upgrade.cost *= 2;
+
+  updateUI();
+}
+
 //updateUI
 function updateUI() {
   counterElement.textContent = Math.floor(counter).toString();
 
-  clickQuantity.textContent = clickUpgradesOwned.toString();
-  autoTimeQuantity.textContent = autoTimeUpgradesOwned.toString();
-  autoPowerQuantity.textContent = autoPowerUpgradesOwned.toString();
+  clickUpgrade.textContent = upgrades.click.cost.toString();
+  autoUpgrade.textContent = upgrades.autoTime.cost.toString();
+  aPowerUpgrade.textContent = upgrades.autoPower.cost.toString();
 
   clickRate.textContent = `Computers Destroyed Per Click: ${clickPower}`;
 
@@ -109,48 +144,21 @@ image.addEventListener("click", () => {
 });
 
 cPurchase.addEventListener("click", () => {
-  if (counter >= cUpgradeCost) {
-    console.log("Bought");
-    counter -= cUpgradeCost;
-    counterElement.textContent = counter.toString();
+  purchaseUpgrade(upgrades.click, () => {
     clickPower += 1;
-    clickUpgradesOwned += 1;
-    cUpgradeCost *= 2;
-  } else {
-    console.log("Not enough money");
-  }
-  clickUpgrade.textContent = cUpgradeCost.toString();
-  updateUI();
+  });
 });
 
 autoPurchase.addEventListener("click", () => {
-  if (counter >= autoCost) {
-    console.log("Bought");
-    counter -= autoCost;
-    counterElement.textContent = counter.toString();
+  purchaseUpgrade(upgrades.autoTime, () => {
     auto = Math.max(1000, auto - 1000);
-    autoTimeUpgradesOwned += 1;
-    autoCost *= 2;
-  } else {
-    console.log("Not enough money");
-  }
-  autoUpgrade.textContent = autoCost.toString();
-  updateUI();
+  });
 });
 
 aPowerPurchase.addEventListener("click", () => {
-  if (counter >= aPowerCost) {
-    console.log("Bought");
-    counter -= aPowerCost;
-    counterElement.textContent = counter.toString();
+  purchaseUpgrade(upgrades.autoPower, () => {
     autoPower += 1;
-    autoPowerUpgradesOwned += 1;
-    aPowerCost *= 2;
-  } else {
-    console.log("Not enough money");
-  }
-  aPowerUpgrade.textContent = aPowerCost.toString();
-  updateUI();
+  });
 });
 
 let lastTime: number = 0;
