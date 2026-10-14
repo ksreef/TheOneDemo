@@ -28,7 +28,7 @@ counterLabel.append("Counter: ", counterElement);
 let clickPower: number = 1;
 
 //change to let for price to change
-const cUpgradeCost: number = 50;
+let cUpgradeCost: number = 50;
 const clickUpgrade = document.createElement("span");
 const cUpLabel = document.createElement("p");
 const cPurchase = document.createElement("button");
@@ -38,7 +38,7 @@ cUpLabel.append("Click Boost: ", "$", clickUpgrade, "    ", cPurchase);
 
 //change to let later for upgrades
 let auto: number = 10000;
-const autoCost: number = 75;
+let autoCost: number = 75;
 const autoUpgrade = document.createElement("span");
 const autoLabel = document.createElement("p");
 const autoPurchase = document.createElement("button");
@@ -47,7 +47,7 @@ autoUpgrade.textContent = "75";
 autoLabel.append("Auto Time Upgrade: ", "$", autoUpgrade, "    ", autoPurchase);
 
 let autoPower: number = 1;
-const aPowerCost: number = 100;
+let aPowerCost: number = 100;
 const aPowerUpgrade = document.createElement("span");
 const aPowerLabel = document.createElement("p");
 const aPowerPurchase = document.createElement("button");
@@ -73,6 +73,7 @@ cPurchase.addEventListener("click", () => {
     counter -= cUpgradeCost;
     counterElement.textContent = counter.toString();
     clickPower += 1;
+    cUpgradeCost *= 2;
   } else {
     console.log("Not enough money");
   }
@@ -86,6 +87,7 @@ autoPurchase.addEventListener("click", () => {
     counterElement.textContent = counter.toString();
     auto = Math.max(1000, auto - 1000);
     startAutoCounter();
+    autoCost *= 2;
   } else {
     console.log("Not enough money");
   }
@@ -98,6 +100,7 @@ aPowerPurchase.addEventListener("click", () => {
     counter -= aPowerCost;
     counterElement.textContent = counter.toString();
     autoPower += 1;
+    aPowerCost *= 2;
   } else {
     console.log("Not enough money");
   }
