@@ -114,7 +114,7 @@ aPowerLabel.append(
 
 let interestGain: number = 0;
 let interestTimer: number = 0;
-const interestInterval: number = 15;
+const interestInterval: number = 12;
 
 const interestUpgrade = document.createElement("span");
 const interestLabel = document.createElement("p");
@@ -130,12 +130,20 @@ interestLabel.append(
   interestPurchase,
 );
 
+let messageTimeout: ReturnType<typeof setTimeout> | undefined;
+
 function purchaseUpgrade(
   upgrade: Upgrade,
   applyEffect: () => void,
 ) {
   if (counter < upgrade.cost) {
-    console.log("Not enough money");
+    message.textContent = "Not enough computers broken!";
+    message.style.color = "#f72929";
+
+    clearTimeout(messageTimeout);
+    messageTimeout = setTimeout(() => {
+      message.textContent = "";
+    }, 2000);
     return;
   }
 

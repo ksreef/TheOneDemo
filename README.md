@@ -1,8 +1,20 @@
 # Computers Broken by Caden Politiski & Keanu Schlank
 
+A clicker game about breaking computers
+
 A minimal TypeScript/Vite browser project with Deno checks and GitHub Pages deployment.
 Game link: ([text](https://ksreef.github.io/TheOneDemo/))
 Commit History: [text](https://github.com/ksreef/TheOneDemo/commits/main/src)
+
+## How to play
+
+- Click the computer image to break computers. Currency is count, the amount of computers currently broken
+- Spend your count on upgrades.
+  - **Destructive Force:** each click breaks more computers.
+  - **Computer Wreckage Machine (time):** the machine breaks computers more often.
+  - **Computer Wreckage Machine (power):** the machine breaks more computers.
+  - **Computer Interest Machine:** every 12 seconds you gain interest on your total.
+- Each upgrade's cost doubles every time you buy it
 
 ## Credits
 
